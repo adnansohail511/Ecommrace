@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.SubTitle = "Statistics Overview";
+}
+
+@section scripts {
+    <!-- jQuery Script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Highcharts Script -->
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/variablepie.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Original Column Chart
+            Highcharts.chart('highchart-container', {
+                chart: { type: 'column' },
+                title: { text: 'Order Amount Overview' },
+                xAxis: { categories: ['Order 101', 'Order 102', 'Order 103', 'Order 104'], crosshair: true },
+                yAxis: { min: 0, title: { text: 'Amount (PKR)' } },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} PKR</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true, useHTML: true
+                },
+                series: [{ name: 'Order Amount', data: [15000, 20000, 32000, 27000] }]
+            });
+
+            // Pie Chart: Buying vs. Selling
+            Highcharts.chart('buy-sell-chart', {
+                chart: { type: 'pie' },
+                title: { text: 'Buying vs. Selling' },
+                series: [{
+                    name: 'Transactions',
+                    data: [
+                        { name: 'Buying', y: 30000 },
+                        { name: 'Selling', y: 20000 }
+                    ]
+                }]
+            });
+
+            // Pie Chart: User Activity Status
+            Highcharts.chart('user-status-chart', {
+                chart: { type: 'pie' },
+                title: { text: 'User Activity Status' },
+                tooltip: { pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' },
+                series: [{
+                    name: 'Users',
+                    colorByPoint: true,
+                    data: [
+                        { name: 'Active Users', y: 80 },
+                        { name: 'Non-Active Users', y: 20 }
+                    ]
+                }]
+            });
+
+            // Area Chart: Monthly Visitors
+            Highcharts.chart('monthly-visitors-chart', {
+                chart: { type: 'area' },
+                title: { text: 'Monthly Visitors Overview' },
+                xAxis: { categories: ['January', 'February', 'March', 'April', 'May', 'June'] },
+                yAxis: { title: { text: 'Number of Visitors' } },
+                tooltip: {
+                    pointFormat: '{series.name} had <b>{point.y}</b> visitors in {point.category}'
+                },
+                series: [{
+                    name: 'Visitors',
+                    data: [500, 700, 1200, 1800, 1500, 2200]
+                }]
+            });
+        });
+    </script>
+
+}
+
+<div class="row mb-4">
+    <!-- Column Chart -->
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="highchart-container" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Buying vs. Selling Pie Chart -->
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="buy-sell-chart" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Activity Status Pie Chart -->
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div id="user-status-chart" style="width: 100%; height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="row">
+        <!-- Monthly Visitors Area Chart -->
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div id="monthly-visitors-chart" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transactions Panel -->
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Transactions Panel</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Order Date</th>
+                                    <th>Order Amount (PKR)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>101</td><td>2024-10-10</td><td>15,000</td></tr>
+                                <tr><td>102</td><td>2024-10-12</td><td>20,000</td></tr>
+                                <tr><td>103</td><td>2024-10-14</td><td>32,000</td></tr>
+                                <tr><td>105</td><td>2024-10-16</td><td>27,000</td></tr>
+                                <tr><td>106</td><td>2024-10-16</td><td>27,000</td></tr>
+                                <tr><td>107</td><td>2024-10-16</td><td>27,000</td></tr>
+                                <tr><td>108</td><td>2024-10-16</td><td>27,000</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-right">
+                        <a href="@Url.Action("Index", "Order")">View All Transactions <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
